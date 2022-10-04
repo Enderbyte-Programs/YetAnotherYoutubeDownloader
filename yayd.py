@@ -24,14 +24,15 @@ except:
     HFMMPG = False
 try:
     print(HFMMPG)
+    """
     installfm = False
     if not HFMMPG:
         if __compiled:
             pyi_splash.close()
-        if messagebox.askyesno("Question","FFmpeg is not installed. Would you like to install it now?"):
+        if messagebox.askyesno("Question","FFmpeg is not installed. Would you like to install it now?"):# uncomment when ffmpeg implemented
             installfm = True
     ISOP = False
-
+    """
 
     root = Tk()
     root.title("Youtube Downloader")
@@ -150,6 +151,8 @@ try:
     rb2 = ttk.Checkbutton(root,variable=rb2v,onvalue=1,offvalue=0,text="Remove extra files")
     rb3 = ttk.Checkbutton(root,variable=rb1v,onvalue=2,offvalue=0,text="Create clip compilation")#NOTE shared variable to ensure only one is checked
     rb4 = ttk.Checkbutton(root,variable=rb1v,onvalue=3,offvalue=0,text="Download with video name")
+    rb1["state"] = "disabled"
+    rb3["state"] = "disabled"#REMOVE WHEN FEATURE IMPLEMENTED
     def __odo(event):
         global b1
         global b0
