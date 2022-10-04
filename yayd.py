@@ -35,6 +35,19 @@ try:
     """
 
     root = Tk()
+    def saq():
+        try:
+            global ISOP
+            if not ISOP:
+                os.system("taskkill /f /pid "+str(os.getpid()))#Forcibly stopping all threads
+                sys.exit()
+            else:
+                if messagebox.askyesno("YAYD","Are you sure you want to quit? An operation is still running. Quitting now will corrupt the downloads."):
+                    os.system("taskkill /f /pid "+str(os.getpid()))#Forcibly stopping all threads
+                    sys.exit()
+        except:
+            sys.exit()
+    root.wm_protocol("WM_DELETE_WINDOW",saq)
     root.title("Youtube Downloader")
     sv_ttk.set_theme("dark")
     if __compiled:
@@ -122,15 +135,7 @@ try:
         b1["state"] = "normal"
         opmen["state"] = "normal"
         ISOP = False
-    def saq():
-        global ISOP
-        if not ISOP:
-            sys.exit()
-        else:
-            if messagebox.askyesno("YAYD","Are you sure you want to quit? An operation is still running. Quitting now will corrupt the downloads."):
-                os.system("taskkill /f /pid "+str(os.getpid()))
-                sys.exit()
-    root.wm_protocol("WM_DELETE_WINDOW",saq)
+    
     mltext = ttk.Label(root,text="Url of video")
     mltext.pack()
     b0 = ttk.Button(root,text="Download Video",command=dnl)
