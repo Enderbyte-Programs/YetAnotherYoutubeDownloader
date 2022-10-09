@@ -1,10 +1,8 @@
-try:
-    import pyi_splash
-except:
-    __compiled = False
-else:
-    __compiled = True
-    pyi_splash.update_text("Enderbyte Programs")
+#!/user/bin python3.10
+import lxilib
+__compiled = lxilib.iscompiled()
+if lxilib.isinterminalenvironment():
+    print("ERROR!!!!!\nTerminal environments are NOT supported. Things are about to go VERY, VERRYYY WRONG!!!")
 import pytube
 from tkinter import IntVar, StringVar, ttk,messagebox,Tk
 from tkinter.constants import *
@@ -281,11 +279,14 @@ try:
         print(rb0v.get())
         if not audio and int(rb0v.get()) != 1:
             savesize = False
+            ua = False
         elif not audio and int(rb0v.get()) == 1:
             print("dlr")
             savesize = True
+            ua = False
         elif audio:
             ua = True
+            savesize = True
 
         file = filedialog.askdirectory()
         print(file)
@@ -330,20 +331,20 @@ try:
                 stream = v.streams.get_audio_only()
             t2["text"] = v.title
             if not preferfname:
-                if os.path.isfile(file+f"\\vid_{vinc}.mp4"):
-                    os.remove(file+f"\\vid_{vinc}.mp4")
-                stream.download(filename=file+f"\\vid_{vinc}.mp4")
+                if os.path.isfile(file+f"/vid_{vinc}.mp4"):
+                    os.remove(file+f"/vid_{vinc}.mp4")
+                stream.download(filename=file+f"/vid_{vinc}.mp4")
                 vinc += 1
             else:
                 try:
-                    if os.path.isfile(file+f"\\{v.title}.mp4"):
-                        os.remove(file+f"\\{v.title}.mp4")
-                    stream.download(filename=file+f"\\{v.title}.mp4")
+                    if os.path.isfile(file+f"/{v.title}.mp4"):
+                        os.remove(file+f"/{v.title}.mp4")
+                    stream.download(filename=file+f"/{v.title}.mp4")
                 except Exception as r:
                     print(r)
-                    if os.path.isfile(file+f"\\vid_{vinc}.mp4"):
-                        os.remove(file+f"\\vid_{vinc}.mp4")
-                    stream.download(filename=file+f"\\vid_{vinc}.mp4")
+                    if os.path.isfile(file+f"//vid_{vinc}.mp4"):
+                        os.remove(file+f"//vid_{vinc}.mp4")
+                    stream.download(filename=file+f"//vid_{vinc}.mp4")
                 vinc += 1
         
         if rb2v == 1:
