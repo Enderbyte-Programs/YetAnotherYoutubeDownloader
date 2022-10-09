@@ -1,60 +1,29 @@
 #!/user/bin python3.10
-import lxilib
-__compiled = lxilib.iscompiled()
-if lxilib.isinterminalenvironment():
-    print("ERROR!!!!!\nTerminal environments are NOT supported. Things are about to go VERY, VERRYYY WRONG!!!")
 import pytube
 from tkinter import IntVar, StringVar, ttk,messagebox,Tk
 from tkinter.constants import *
 from tkinter import filedialog
 import os
-import subprocess
 import sys
-import sv_ttk
 
 try:
-    rsz = subprocess.run(["ffmpeg","--help"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    if rsz.returncode != 0:
-        HFMMPG = False
-    else:
-        HFMMPG = True
-except:
-    HFMMPG = False
-try:
-    print(HFMMPG)
-    """
-    installfm = False
-    if not HFMMPG:
-        if __compiled:
-            pyi_splash.close()
-        if messagebox.askyesno("Question","FFmpeg is not installed. Would you like to install it now?"):# uncomment when ffmpeg implemented
-            installfm = True
-    ISOP = False
-    """
-
     root = Tk()
     def saq():
         try:
             global ISOP
             if not ISOP:
-                os.system("taskkill /f /pid "+str(os.getpid()))#Forcibly stopping all threads
+                os.system("kill "+str(os.getpid()))#Forcibly stopping all threads
                 sys.exit()
             else:
                 if messagebox.askyesno("YAYD","Are you sure you want to quit? An operation is still running. Quitting now will corrupt the downloads."):
-                    os.system("taskkill /f /pid "+str(os.getpid()))#Forcibly stopping all threads
+                    os.system("kill "+str(os.getpid()))#Forcibly stopping all threads
                     sys.exit()
         except:
             sys.exit()
     root.wm_protocol("WM_DELETE_WINDOW",saq)
     root.title("Youtube Downloader")
-    sv_ttk.set_theme("dark")
-    if __compiled:
-        root.wm_iconbitmap("yayd.exe")
-    else:
-        try:
-            root.wm_iconbitmap("ep.ico")
-        except:
-            pass
+    style = ttk.Style(root)
+    style.theme_use("default")
     root.geometry("500x500")
     ent = ttk.Entry(root,width=50)
     def dnl(audio=False):
@@ -71,8 +40,6 @@ try:
             global pbar
             global t0
             size = stream.filesize
-            print(size)
-            print(bytes_remaining)
             pbar["mode"] = "determinate"
             pbar["maximum"] = size
             pbar["value"] = size - bytes_remaining
@@ -100,11 +67,11 @@ try:
             opmen["state"] = "normal"
             ISOP = False
             return
-        print(rb0v.get())
+   
         if not audio and int(rb0v.get()) != 1:
             stream = y.streams.get_highest_resolution()
         elif not audio and int(rb0v.get()) == 1:
-            print("dlr")
+
             stream = y.streams.get_lowest_resolution()
         elif audio:
             stream = y.streams.get_audio_only()
@@ -112,8 +79,8 @@ try:
             file = filedialog.asksaveasfilename(filetypes=[(".mp4 Video","*.mp4")])
         else:
             file = filedialog.asksaveasfilename(filetypes=[(".mp3 Audio","*.mp3")])
-        print(file)
-        if file is None or file == "":
+
+        if file is None or file.strip().replace(" ","") == "":
             t0.destroy()
             pbar.destroy()
             b0["state"] = "normal"
@@ -149,13 +116,13 @@ try:
     rb0 = ttk.Checkbutton(root,variable=rb0v,onvalue=1,offvalue=0,text="Prefer smaller file size")
     rb0.pack()
     rb1v = IntVar(root,value=3)
-    rb1 = ttk.Checkbutton(root,variable=rb1v,onvalue=1,offvalue=0,text="Concatenate files")
+    #rb1 = ttk.Checkbutton(root,variable=rb1v,onvalue=1,offvalue=0,text="Concatenate files")
     rb2v = IntVar(root,value=1)
     rb2 = ttk.Checkbutton(root,variable=rb2v,onvalue=1,offvalue=0,text="Remove extra files")
-    rb3 = ttk.Checkbutton(root,variable=rb1v,onvalue=2,offvalue=0,text="Create clip compilation")#NOTE shared variable to ensure only one is checked
+    #rb3 = ttk.Checkbutton(root,variable=rb1v,onvalue=2,offvalue=0,text="Create clip compilation")#NOTE shared variable to ensure only one is checked
     rb4 = ttk.Checkbutton(root,variable=rb1v,onvalue=3,offvalue=0,text="Download with video name")
-    rb1["state"] = "disabled"
-    rb3["state"] = "disabled"#REMOVE WHEN FEATURE IMPLEMENTED
+    #rb1["state"] = "disabled"
+    #rb3["state"] = "disabled"#REMOVE WHEN FEATURE IMPLEMENTED
     def __odo(event):
         global b1
         global b0
@@ -168,9 +135,9 @@ try:
             mltext["text"] = "Playlist URL"
             b0.config(command=lambda: dnlp(False,False))
             b1.config(command=lambda: dnlp(False,True))
-            rb1.pack()
+            #rb1.pack()
             rb2.pack()
-            rb3.pack()
+            #rb3.pack()
             rb4.pack()
         elif dat == "Channel":
             b1["text"] = "Download all audio"
@@ -178,17 +145,17 @@ try:
             mltext["text"] = "Channel URL"
             b0.config(command=lambda: dnlp(True,False))
             b1.config(command=lambda: dnlp(True,True))
-            rb1.pack()
+            #rb1.pack()
             rb2.pack()
-            rb3.pack()
+            #rb3.pack()
             rb4.pack()
         else:
             b1["text"] = "Download audio"
             b0["text"] = "Download video"
             mltext["text"] = "Channel URL"
-            rb1.pack_forget()
+            #rb1.pack_forget()
             rb2.pack_forget()
-            rb3.pack_forget()
+            #rb3.pack_forget()
             rb4.pack_forget()
         
     opmen = ttk.OptionMenu(root,vl,*olist,command=__odo)
@@ -218,8 +185,6 @@ try:
             global pbar
             global t0
             size = stream.filesize
-            print(size)
-            print(bytes_remaining)
             pbar["mode"] = "determinate"
             pbar["maximum"] = size
             pbar["value"] = size - bytes_remaining
@@ -276,12 +241,12 @@ try:
                 opmen["state"] = "normal"
                 ISOP = False
                 return
-        print(rb0v.get())
+
         if not audio and int(rb0v.get()) != 1:
             savesize = False
             ua = False
         elif not audio and int(rb0v.get()) == 1:
-            print("dlr")
+
             savesize = True
             ua = False
         elif audio:
@@ -289,8 +254,8 @@ try:
             savesize = True
 
         file = filedialog.askdirectory()
-        print(file)
-        if file is None or file == "":
+
+        if file is None or file.strip().replace(" ","") == "":
             t0.destroy()
             pbar.destroy()
             pbarm.destroy()
@@ -302,50 +267,95 @@ try:
             opmen["state"] = "normal"
             ISOP = False
             return
-        if os.path.isfile("output.mp4") or os.path.isfile("vid_0.mp4") or os.path.isfile("vid_0s.mp4"):
-            if not messagebox.askyesno("Some files needed files already exist. May we overwrite them?"):
-                t0.destroy()
-                pbar.destroy()
-                pbarm.destroy()
-                pbard.destroy()
-                t1.destroy()
-                t2.destroy()
-                b0["state"] = "normal"
-                b1["state"] = "normal"
-                opmen["state"] = "normal"
-                ISOP = False
-                return 
-        pbarm["value"] += 1
-        t1["text"] = "Downloading"
-        pbard["mode"] = "determinate"
-        pbard["maximum"] = len(y.video_urls)
-        vinc = 0
-        for video in y.video_urls:
-            pbard["value"] += 1
-            v = pytube.YouTube(video,on_progress_callback=progress_function)
-            if savesize and not audio:
-                stream = v.streams.get_lowest_resolution()
-            elif not savesize and not audio:
-                stream = v.streams.get_highest_resolution()
-            elif audio:
-                stream = v.streams.get_audio_only()
-            t2["text"] = v.title
-            if not preferfname:
-                if os.path.isfile(file+f"/vid_{vinc}.mp4"):
-                    os.remove(file+f"/vid_{vinc}.mp4")
-                stream.download(filename=file+f"/vid_{vinc}.mp4")
-                vinc += 1
-            else:
-                try:
-                    if os.path.isfile(file+f"/{v.title}.mp4"):
-                        os.remove(file+f"/{v.title}.mp4")
-                    stream.download(filename=file+f"/{v.title}.mp4")
-                except Exception as r:
-                    print(r)
-                    if os.path.isfile(file+f"//vid_{vinc}.mp4"):
-                        os.remove(file+f"//vid_{vinc}.mp4")
-                    stream.download(filename=file+f"//vid_{vinc}.mp4")
-                vinc += 1
+        if not ua:
+            if os.path.isfile("output.mp4") or os.path.isfile("vid_0.mp4") or os.path.isfile("vid_0s.mp4"):
+                if not messagebox.askyesno("Some files needed files already exist. May we overwrite them?"):
+                    t0.destroy()
+                    pbar.destroy()
+                    pbarm.destroy()
+                    pbard.destroy()
+                    t1.destroy()
+                    t2.destroy()
+                    b0["state"] = "normal"
+                    b1["state"] = "normal"
+                    opmen["state"] = "normal"
+                    ISOP = False
+                    return 
+            pbarm["value"] += 1
+            t1["text"] = "Downloading"
+            pbard["mode"] = "determinate"
+            pbard["maximum"] = len(y.video_urls)
+            vinc = 0
+            for video in y.video_urls:
+                pbard["value"] += 1
+                v = pytube.YouTube(video,on_progress_callback=progress_function)
+                if savesize and not audio:
+                    stream = v.streams.get_lowest_resolution()
+                elif not savesize and not audio:
+                    stream = v.streams.get_highest_resolution()
+                elif audio:
+                    stream = v.streams.get_audio_only()
+                t2["text"] = v.title
+                if not preferfname:
+                    if os.path.isfile(file+f"/vid_{vinc}.mp4"):
+                        os.remove(file+f"/vid_{vinc}.mp4")
+                    stream.download(filename=file+f"/vid_{vinc}.mp4")
+                    vinc += 1
+                else:
+                    try:
+                        if os.path.isfile(file+f"/{v.title}.mp4"):
+                            os.remove(file+f"/{v.title}.mp4")
+                        stream.download(filename=file+f"/{v.title}.mp4")
+                    except Exception as r:
+                        if os.path.isfile(file+f"//vid_{vinc}.mp4"):
+                            os.remove(file+f"//vid_{vinc}.mp4")
+                        stream.download(filename=file+f"//vid_{vinc}.mp4")
+                    vinc += 1
+        else:
+            if os.path.isfile("output.mp3") or os.path.isfile("vid_0.mp3") or os.path.isfile("vid_0s.mp3"):
+                if not messagebox.askyesno("Some files needed files already exist. May we overwrite them?"):
+                    t0.destroy()
+                    pbar.destroy()
+                    pbarm.destroy()
+                    pbard.destroy()
+                    t1.destroy()
+                    t2.destroy()
+                    b0["state"] = "normal"
+                    b1["state"] = "normal"
+                    opmen["state"] = "normal"
+                    ISOP = False
+                    return 
+            pbarm["value"] += 1
+            t1["text"] = "Downloading"
+            pbard["mode"] = "determinate"
+            pbard["maximum"] = len(y.video_urls)
+            vinc = 0
+            for video in y.video_urls:
+                pbard["value"] += 1
+                v = pytube.YouTube(video,on_progress_callback=progress_function)
+                if savesize and not audio:
+                    stream = v.streams.get_lowest_resolution()
+                elif not savesize and not audio:
+                    stream = v.streams.get_highest_resolution()
+                elif audio:
+                    stream = v.streams.get_audio_only()
+                t2["text"] = v.title
+                if not preferfname:
+                    if os.path.isfile(file+f"/vid_{vinc}.mp3"):
+                        os.remove(file+f"/vid_{vinc}.mp3")
+                    stream.download(filename=file+f"/vid_{vinc}.mp3")
+                    vinc += 1
+                else:
+                    try:
+                        if os.path.isfile(file+f"/{v.title}.mp3"):
+                            os.remove(file+f"/{v.title}.mp3")
+                        stream.download(filename=file+f"/{v.title}.mp3")
+                    except Exception as r:
+
+                        if os.path.isfile(file+f"//vid_{vinc}.mp3"):
+                            os.remove(file+f"//vid_{vinc}.mp3")
+                        stream.download(filename=file+f"//vid_{vinc}.mp3")
+                    vinc += 1
         
         if rb2v == 1:
             pbarm["value"] += 1
@@ -372,8 +382,6 @@ try:
         b1["state"] = "normal"
         opmen["state"] = "normal"
         ISOP = False
-    if __compiled:
-        pyi_splash.close()
     root.mainloop()
 except Exception as e:
     messagebox.showerror("Error",e)
