@@ -1,11 +1,13 @@
-#!/user/bin python3.10
 import pytube
 from tkinter import IntVar, StringVar, ttk,messagebox,Tk
 from tkinter.constants import *
 from tkinter import filedialog
 import os
 import sys
-
+try:
+    import pyi_splash
+except:
+    pass
 try:
     root = Tk()
     def saq():
@@ -26,6 +28,10 @@ try:
     style.theme_use("default")
     root.geometry("500x500")
     ent = ttk.Entry(root,width=50)
+    try:
+        pyi_splash.close()
+    except:
+        pass
     def dnl(audio=False):
         global root
         global ent
