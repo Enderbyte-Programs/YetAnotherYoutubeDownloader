@@ -35,7 +35,7 @@ try:
     style.theme_use('vista')
     root.geometry("500x400")
     if getattr(sys, 'frozen', False):
-        root.iconbitmap(os.path.join(sys._MEIPASS, "yayd.ico"))
+        root.iconbitmap(os.path.join(sys._MEIPASS, "file/yayd.ico"))
     else:
         root.iconbitmap("yayd.ico")
     ent = ttk.Entry(root,width=50)
