@@ -1,0 +1,1 @@
+pyinstaller -w --onefile --icon=yayd.ico --version-file=vf.txt --add-data "yayd.ico" yayd.py
